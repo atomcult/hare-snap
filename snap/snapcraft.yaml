@@ -1,0 +1,59 @@
+name: hare
+base: core22
+adopt-info: harec
+summary: Single-line elevator pitch for your amazing snap
+description: |
+  This is my-snap's description. You have a paragraph or two to tell the
+  most important story about your snap. Keep it under 100 words though,
+  we live in tweetspace and your description wants to look good in the snap
+  store.
+
+grade: devel
+confinement: strict
+
+plugs:
+  home:
+
+layout:
+  /usr/local/src/hare:
+    symlink: $SNAP/usr/local/src/hare
+
+apps:
+  qbe:
+    command: usr/local/bin/qbe
+  harec:
+    command: usr/local/bin/harec
+  hare:
+    command: usr/local/bin/hare
+  haredoc:
+    command: usr/local/bin/haredoc
+
+parts:
+  qbe:
+    plugin: make
+    source: git://c9x.me/qbe.git
+    build-attributes:
+      - enable-patchelf
+  harec:
+    after: [qbe]
+    plugin: autotools
+    source: https://git.sr.ht/~sircmpwn/harec
+    source-type: git
+    override-pull: |
+      craftctl default
+      craftctl set version=$(git describe --always --dirty --abbrev=10)
+    build-packages: [scdoc]
+    build-environment:
+      - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
+    build-attributes:
+      - enable-patchelf
+  hare:
+    after: [harec]
+    plugin: make
+    source: https://git.sr.ht/~sircmpwn/hare
+    source-type: git
+    override-pull: |
+      craftctl default
+      cp config.example.mk config.mk
+    build-environment:
+      - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
