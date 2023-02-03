@@ -9,14 +9,7 @@ description: |
   store.
 
 grade: devel
-confinement: strict
-
-plugs:
-  home:
-
-layout:
-  /usr/local/src/hare:
-    symlink: $SNAP/usr/local/src/hare
+confinement: classic
 
 apps:
   qbe:
@@ -54,6 +47,7 @@ parts:
     source-type: git
     override-pull: |
       craftctl default
+      patch < ../../../config.patch
       cp config.example.mk config.mk
     build-environment:
       - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/

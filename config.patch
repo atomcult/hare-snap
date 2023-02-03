@@ -1,0 +1,21 @@
+diff --git a/config.example.mk b/config.example.mk
+index 75ef9a88..eee43d40 100644
+--- a/config.example.mk
++++ b/config.example.mk
+@@ -1,5 +1,7 @@
+ ## Install configuration
+ 
++SNAP = /snap/hare/current
++
+ PREFIX = /usr/local
+ BINDIR = $(PREFIX)/bin
+ MANDIR = $(PREFIX)/share/man
+@@ -9,7 +11,7 @@ SRCDIR = $(PREFIX)/src
+ STDLIB = $(SRCDIR)/hare/stdlib
+ 
+ # Default HAREPATH
+-HAREPATH = $(SRCDIR)/hare/stdlib:$(SRCDIR)/hare/third-party
++HAREPATH = $(SNAP)$(SRCDIR)/hare/stdlib:$(SNAP)$(SRCDIR)/hare/third-party
+ 
+ ## Build configuration
+ 
