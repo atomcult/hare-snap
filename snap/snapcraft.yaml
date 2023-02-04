@@ -18,6 +18,8 @@ apps:
     command: usr/local/bin/harec
   hare:
     command: usr/local/bin/hare
+    environment:
+      PATH: $PATH:$SNAP/usr/local/bin
   haredoc:
     command: usr/local/bin/haredoc
 
