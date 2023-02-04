@@ -22,6 +22,8 @@ apps:
       PATH: $PATH:$SNAP/usr/local/bin
   haredoc:
     command: usr/local/bin/haredoc
+  redis-cli:
+    command: usr/local/bin/redis-cli
 
 parts:
   qbe:
@@ -51,5 +53,53 @@ parts:
       craftctl default
       patch < ../../../config.patch
       cp config.example.mk config.mk
+    build-environment:
+      - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
+
+  # Extended libraries
+  hare-compress:
+    after: [hare]
+    plugin: make
+    source: https://git.sr.ht/~sircmpwn/hare-compress
+    source-type: git
+    build-environment:
+      - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
+  hare-redis:
+    after: [hare]
+    plugin: make
+    source: https://git.sr.ht/~sircmpwn/hare-redis
+    source-type: git
+    build-environment:
+      - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
+    override-build: |
+      craftctl default
+      mkdir -p "$CRAFT_PART_INSTALL/usr/local/bin"
+      cp redis-cli "$CRAFT_PART_INSTALL/usr/local/bin/"
+  hare-json:
+    after: [hare]
+    plugin: make
+    source: https://git.sr.ht/~sircmpwn/hare-json
+    source-type: git
+    build-environment:
+      - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
+  hare-xml:
+    after: [hare]
+    plugin: make
+    source: https://git.sr.ht/~sircmpwn/hare-xml
+    source-type: git
+    build-environment:
+      - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
+  hare-png:
+    after: [hare]
+    plugin: make
+    source: https://git.sr.ht/~sircmpwn/hare-png
+    source-type: git
+    build-environment:
+      - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
+  hare-linux:
+    after: [hare]
+    plugin: make
+    source: https://git.sr.ht/~sircmpwn/hare-linux
+    source-type: git
     build-environment:
       - PATH: $PATH:$CRAFT_STAGE/usr/local/bin/
